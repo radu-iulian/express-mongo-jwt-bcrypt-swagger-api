@@ -10,6 +10,70 @@ const AdminUser = require('../models/adminUser');
 
 router.use(express.json());
 
+/** 
+* @swagger
+*    components:
+*        schemas:
+*            LoginRequest:
+*                type: object
+*                required:
+*                    - email
+*                    - password
+*                properties:
+*                    email:
+*                        type: string
+*                        description: email of the admin(mentor)/student user
+*                        example: 'radu.iulian.ilie@gmail.com'
+*                    password:
+*                        type: string
+*                        description: password of the admin(mentor)/student user
+*                        example: 'Password123!'
+*
+*            LoginResponse:
+*               type: object
+*               properties:
+*                    message:
+*                       type: string
+*                       description: Authorization successful message
+*                       example: 'Authorization successful'
+*                    token:
+*                       type: string
+*                       description: Generated JWT token
+*                       example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhZHUuaXVsaWFuLmlsaWVAZ21haWwuY29tIiwidXNlcklkIjoiNjJjZDdmY2Y5OTQ1OWU2Njk3NTdiZmExIiwiaWF0IjoxNjU3NjM2MDIwLCJleHAiOjE2NTc2Mzk2MjB9.hSDPABAMU2NaMDqoD9WVbSy-Lntwgwmcb9dOdTknPmQ'
+*/
+
+/**
+ * @swagger
+ * tags:
+ *  name: Login
+ *  description: Login endpoint that generated the JWT token.
+ *      The generated token value will be used for "Auth" header value. 
+ *      The key for JWT encoding is also stored in the .env project file under "secretKey" constant (e.g. secretKey=efgh456$%^).
+ */
+
+/**
+ * @swagger
+ *  /login:
+ *      post:
+ *          tags: 
+ *              - Login
+ *          summary: Login admin/student users
+ *          requestBody:
+ *              required: true
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#components/schemas/LoginRequest'
+ *          responses:
+ *              "200":
+ *                  description: The admin/student user has been successfully logged in.
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: '#components/schemas/LoginResponse'
+ *              "401":
+ *                  description: 'Unauthorized'
+ */
 router.post('/api/login', async (req, res) => {
     let usersCollection = [];
     let isStudent = false;

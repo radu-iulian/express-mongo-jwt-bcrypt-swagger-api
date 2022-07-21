@@ -4,7 +4,7 @@ dotenv.config();
 
 module.exports = (req, res, next) => {
     try {
-        const token = req.headers.authorization;
+        const token = req.headers.auth;
         const decoded = jwt.verify(token, process.env.secretKey);
         req.userData = decoded;
         next();
