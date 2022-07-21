@@ -15,5 +15,8 @@ A simple Express.js API that will manage students and admins users from a mentor
 1. Clone the project.
 2. `npm i` - Install all the dependencies.
 3. There are a lot dependencies that are not updated frequently in parallel with cypress. So while installing if you are seeing conflicts use `npm i --force`.
-4. run `nodemon start` command to start the service
-5. Access `http://localhost:1234/api-docs/` to check the documentation of the project.
+4. Create a .env file on the project root containing 2 secrets: adminSecretKey and secretKey.
+   e.g. `adminSecretKey=das@5523!da$%^DAFSDss123
+         secretKey=dsadSADXACS3!@(dda12DAD!`
+6. run `nodemon start` command to start the service
+7. Access `http://localhost:1234/api-docs/` to check the documentation of the project.
