@@ -14,8 +14,9 @@ A simple Express.js API that will manage students and admins users from a mentor
 # How to Start
 1. Clone the project.
 2. `npm i` - Install all the dependencies.
-3. There are a lot dependencies that are not updated frequently in parallel with cypress. So while installing if you are seeing conflicts use `npm i --force`.
-4. Create a .env file on the project root containing 2 secrets: adminSecretKey and secretKey.
+3. Manually install nodemon dev dependency by running `npm install nodemon --global` command.
+4. There are a lot dependencies that are not updated frequently in parallel with cypress. So while installing if you are seeing conflicts use `npm i --force`.
+5. Create a .env file on the project root containing 2 secrets: adminSecretKey and secretKey.
    e.g. `adminSecretKey=das@5523!da$%^DAFSDss123
          secretKey=dsadSADXACS3!@(dda12DAD!`
 6. run `nodemon start` command to start the service
