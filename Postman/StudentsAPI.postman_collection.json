@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "2a04404a-870e-402b-8e51-de90eb7376da",
+		"name": "StudentsAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "16708597"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Register admin user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Secret",
+								"value": "{{adminSecret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"radu.iulian.ilie@gmail.com\",\n    \"password\": \"parola12345!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/admin/registration"
+					},
+					"response": []
+				},
+				{
+					"name": "Create new student",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"studentId\", responseData._id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Secret",
+								"value": "{{adminSecret}}",
+								"type": "text"
+							},
+							{
+								"key": "Auth",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Gigel\",\n    \"lastName\": \"Frone2\",\n    \"email\": \"gigel.frone2@romaniiautalent.com\",\n    \"password\": \"doremifa1234\",\n    \"phoneNumber\": \"0750505050\",\n    \"birthDate\": \"1976-01-01\",\n    \"studiesInfo\": [\n        {\n            \"university\": \"Scoala muzicala a vietii\",\n            \"faculty\": \"Canto la mandolina\",\n            \"yearOfStudy\": 3\n        }\n    ],\n    \"hobbies\": [\"Singing\"]\n}"
+						},
+						"url": "{{url}}/api/admin/addNewStudent"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete student",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Secret",
+								"value": "{{adminSecret}}",
+								"type": "text"
+							},
+							{
+								"key": "Auth",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{url}}/api/admin/deleteStudent/{{studentId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all students",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhZHUuaXVsaWFuLmlsaWVAZ21haWwuY29tIiwidXNlcklkIjoiNjJjODEzYTQ3ZDhhYzE0MjYwMDRiNzU3IiwiaWF0IjoxNjU3NTY0NjcyLCJleHAiOjE2NTc1NjgyNzJ9.kWHYNVgN8x_XGlgfJbAME7SBLZYOUjnbF8Jlyo7VNPg"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Secret",
+								"value": "{{adminSecret}}",
+								"type": "text"
+							},
+							{
+								"key": "Auth",
+								"value": "{{token}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "{{url}}/api/admin/getAllStudents"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Student endpoints",
+			"item": [
+				{
+					"name": "Get student id based on token (for personal student account only)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseData = JSON.parse(responseBody);",
+									"",
+									"pm.environment.set(\"studentId\", responseData.studentId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Auth",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": "{{url}}/api/student/getId/gigel.frone2@romaniiautalent.com"
+					},
+					"response": []
+				},
+				{
+					"name": "Get student by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Auth",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Secret",
+								"value": "{{adminSecret}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "{{url}}/api/student/{{studentId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Update student",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Auth",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Secret",
+								"value": "{{adminSecret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n        \"firstName\": \"Gigi\",\n        \"lastName\": \"Becali\",\n        \"email\": \"gigi.becali@shepherdmail.com\",\n        \"phoneNumber\": \"0712345231\",\n        \"birthDate\": \"1960-01-01\",\n        \"studiesInfo\": [\n            {\n                \"university\": \"Scoala vietii - exmatriculat\",\n                \"faculty\": \"Fara frecventa\",\n                \"yearOfStudy\": 4\n            }\n        ],\n        \"hobbies\": [\n            \"Football\"\n        ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/student/{{studentId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Partially update student",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Auth",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Secret",
+								"value": "{{adminSecret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"studiesInfo\": [\n        {\n            \"university\": \"Scoala vietii\",\n            \"faculty\": \"Fara frecventaa\",\n            \"yearOfStudy\": 5\n        }\n    ],\n    \"hobbies\": [\"Singing\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/student/{{studentId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Update student password (for personal student account only)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Auth",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"parola12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/api/student/updatePassword/{{studentId}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseData = JSON.parse(responseBody);",
+							"",
+							"pm.environment.set(\"token\", responseData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"radu.iulian.ilie@gmail.com\",\n    \"password\": \"parola12345!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{url}}/api/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Health check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{url}}/health"
+			},
+			"response": []
+		}
+	]
+}

@@ -36,7 +36,7 @@ const options = {
         url: "http://localhost:1234/api",
       },
       {
-        url: "http://3.72.7.86/api/"
+        url: "http://35.159.24.124/api/"
       }
     ],
   },
