@@ -60,6 +60,7 @@ Method 3: Deploy the API on an Amazon EC2 instance - with Docker
     11.3. `nvm install 16` (or replace 16 with the latest version of node. Check: https://nodejs.org/en/).
     
     Check if the node and npm has been successfully installed by executing the following commands:
+    
     `node --version` and `npm --version`.
 
     11.4. Port forward your traffic from port 80 of the instance to the port on which the API is running ( `1234` by default) by executing:
@@ -72,6 +73,7 @@ Method 3: Deploy the API on an Amazon EC2 instance - with Docker
       `sudo yum update && sudo yum install docker -y`.
 
     11.7. Add group membership for the default ec2-user so you can run all docker commands without using the sudo command:
+
       `sudo usermod -a -G docker ec2-user`
       
       `id ec2-user`
@@ -79,6 +81,7 @@ Method 3: Deploy the API on an Amazon EC2 instance - with Docker
       `newgrp docker`.
 
     11.8. Install docker-compose:
+
       `wget https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)`
       
       `sudo mv docker-compose-$(uname -s)-$(uname -m) /usr/local/bin/docker-compose`
