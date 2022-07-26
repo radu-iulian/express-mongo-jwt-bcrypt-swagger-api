@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/studentsDB',() => {
+mongoose.connect(process.env.mongoDbUri,() => {
     console.log('Students MongoDB connected')
 });
 

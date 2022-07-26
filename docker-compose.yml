@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  # MongoDB services
+  mongo_db:
+    container_name: mongo
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    volumes: 
+      - mongo_db:/data/db
+
+  # Students API service
+  api:
+    build: .
+    ports:
+      - 1234:1234
+    volumes:
+      - .:/usr/src/app
+    environment:
+      mongoDbUri: mongodb://mongo_db/studentsDB
+      adminSecretKey: das@5523!da%^DAFSDss123
+      secretKey: dsadSADXACS3!@(dda12DAD!
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}
