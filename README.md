@@ -50,42 +50,57 @@ Method 3: Deploy the API on an Amazon EC2 instance - with Docker
 10. Copy the example SSH client command from the Amazon AWS site and then press enter. You will also be asked if you want to continue. Type yes and then enter. The SSH connection should be established and the console output should look like:
 ![image](https://user-images.githubusercontent.com/87607624/181007753-3a084178-0451-40fe-8845-a093b32564fb.png)
 11. Run the following commands via SSH:
+
   11.1. `sudo yum update -y`
+  
   11.2. `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash`
   Try to execute `nvm --version` command in the terminal just to check if the nvm has been successfully installed. If the output is `nvm: command not found` then type `exit` and then enter and after that connect again via SSH with your instance and try again.
+  
   11.3. `nvm install 16` (or replace 16 with the latest version of node. Check: https://nodejs.org/en/)
   Check if the node and npm has been successfully installed by executing the following commands:
   `node --version` and `npm --version`.
+  
   11.4. Port forward your traffic from port 80 of the instance to the port on which the API is running ( `1234` by default) by executing:
   `sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 1234`.
+  
   11.5. Install git: `sudo yum install git -y` and then verify via `git -v` if it has been successfully installed.
   
   11.6. Install Docker:
     `sudo yum update && sudo yum install docker -y`.
+    
   11.7. Add group membership for the default ec2-user so you can run all docker commands without using the sudo command:
     `sudo usermod -a -G docker ec2-user`
     `id ec2-user`
     `newgrp docker`.
+    
   11.8. Install docker-compose:
     `wget https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)` 
     `sudo mv docker-compose-$(uname -s)-$(uname -m) /usr/local/bin/docker-compose`
     `sudo chmod -v +x /usr/local/bin/docker-compose`.
+    
   11.9. Enable docker service at AMI boot time:
     `sudo systemctl enable docker.service`.
+    
   11.10. Start the Docker service:
     `sudo systemctl start docker.service`.
+    
   11.11. Get the docker service status on your AMI instance, run:
     `sudo systemctl status docker.service`
     The output should look something like that:
     ![image](https://user-images.githubusercontent.com/87607624/181014747-9af408e0-caab-4953-9e55-a979f1ecf3e7.png)
 
   11.12. `mkdir projects && cd projects`.
+  
   11.13. `git clone https://github.com/radu-iulian/express-mongo-jwt-bcrypt-swagger-api.git`.
+  
   11.14. `cd express-mongo-jwt-bcrypt-swagger-api/`.
+  
   11.15. Build and run Docker containers by executing the following commands:
     `docker compose build --no-cache` and
     `docker compose up -d`.
+    
   11.16. Check using `docker ps` command if the API and the Mongo DB containers have been raised.
+  
 12. Access `http://<EC2_instance_IP>/api-docs/` to check the documentation of the project. e.g. http://35.159.24.124/api-docs/.
 13. If you will want to play with the API using Swagger you will also need to modify the `server.js` file on the EC2 cloned repo so that the `options` constant includes your EC2 instance in the `servers` array. Example:
 ![image](https://user-images.githubusercontent.com/87607624/181021926-c0f8fd75-6f37-4f67-8f5f-a90bcc657c9c.png)
