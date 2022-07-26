@@ -41,17 +41,16 @@ Method 3: Deploy the API on an Amazon EC2 instance - with Docker
 3. Click on the Launch instance button.
 4. Configure the instance that you want to create like this if you want to be free tier eligible:
 ![image](https://user-images.githubusercontent.com/87607624/181005202-624198b3-67f6-42e1-9ca7-3f22c4c5b1ca.png)
-![image](https://user-images.githubusercontent.com/87607624/181005333-ae5f302e-a936-422e-a789-75db88c2d83a.png).
+![image](https://user-images.githubusercontent.com/87607624/181005333-ae5f302e-a936-422e-a789-75db88c2d83a.png)
 5. In the Key pair section create a new key pair ( the name can be the same as the selected region) and save the .pem file locally. You will need this later on in order to connect via SSH on the EC2 instance.
 6. Click on the Create instance button.
 7. Navigate to the previously created instance and wait until the Connect button is no longer greyed out ( it will take about 5 minutes).
 8. Click on the Connect button and then go to the SSH client tab.
 9. Open/bring the previously opened terminal back in focus and cd into the folder where you downloaded the .pem file at step 5. Then make sure that your key is publicly viewable by running `chmod 400 <name_of_your_pem_file>` command. e.g. `chmod 400 eu-central-1.pem'.
 10. Copy the example SSH client command from the Amazon AWS site and then press enter. You will also be asked if you want to continue. Type yes and then enter. The SSH connection should be established and the console output should look like:
-![image](https://user-images.githubusercontent.com/87607624/181007753-3a084178-0451-40fe-8845-a093b32564fb.png).
+![image](https://user-images.githubusercontent.com/87607624/181007753-3a084178-0451-40fe-8845-a093b32564fb.png)
 11. Run the following commands via SSH:
-  
-  11.1. `sudo yum update -y'.
+  11.1. `sudo yum update -y`
   11.2. `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash`
   Try to execute `nvm --version` command in the terminal just to check if the nvm has been successfully installed. If the output is `nvm: command not found` then type `exit` and then enter and after that connect again via SSH with your instance and try again.
   11.3. `nvm install 16` (or replace 16 with the latest version of node. Check: https://nodejs.org/en/)
@@ -72,13 +71,13 @@ Method 3: Deploy the API on an Amazon EC2 instance - with Docker
     `sudo mv docker-compose-$(uname -s)-$(uname -m) /usr/local/bin/docker-compose`
     `sudo chmod -v +x /usr/local/bin/docker-compose`.
   11.9. Enable docker service at AMI boot time:
-    `sudo systemctl enable docker.service'.
+    `sudo systemctl enable docker.service`.
   11.10. Start the Docker service:
     `sudo systemctl start docker.service`.
   11.11. Get the docker service status on your AMI instance, run:
-    `sudo systemctl status docker.service'
+    `sudo systemctl status docker.service`
     The output should look something like that:
-    ![image](https://user-images.githubusercontent.com/87607624/181014747-9af408e0-caab-4953-9e55-a979f1ecf3e7.png).
+    ![image](https://user-images.githubusercontent.com/87607624/181014747-9af408e0-caab-4953-9e55-a979f1ecf3e7.png)
 
   11.12. `mkdir projects && cd projects`.
   11.13. `git clone https://github.com/radu-iulian/express-mongo-jwt-bcrypt-swagger-api.git`.
