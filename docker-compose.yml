@@ -18,6 +18,7 @@ services:
       - 1234:1234
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
       mongoDbUri: mongodb://mongo_db/studentsDB
       adminSecretKey: das@5523!da%^DAFSDss123
