@@ -108,7 +108,7 @@ router.use(express.json());
  * tags:
  *  name: Student
  *  description: Student users endpoints.
- *      The Student must be logged in before executing these requests. For this another header should be added to the request named "Auth". 
+ *      The Student must be logged in before executing these requests. For this another header should be added to the request named "Authorization". 
  *      The key for JWT encoding is also stored in the .env project file under "secretKey" constant (e.g. secretKey=efgh456$%^).
  *      Most of the endpoints (except for GET student id and PATCH password) can be also used by admin users but you'll also need 
  *      a "Secret" header of which value is stored in the .env file in the API project ( e.g. adminSecretKey=abcd123!@#). 
@@ -120,10 +120,10 @@ router.use(express.json());
  *      get:
  *          tags: 
  *              - Student
- *          summary: Gets student id based on the provided Auth token header and the email address sent as path param
+ *          summary: Gets student id based on the provided Authorization token header and the email address sent as path param
  *          parameters:
  *              - in: header
- *                name: Auth
+ *                name: Authorization
  *                schema:
  *                    type: string
  *                required: true
@@ -145,7 +145,7 @@ router.use(express.json());
  *                  description: 'This operation is not allowed for other users'
  */
 router.get('/api/student/getId/:studentEmail', checkAuth, async (req, res) => {
-    const decodedToken = jwt.decode(req.headers.auth);
+    const decodedToken = jwt.decode(req.headers['authorization']);
 
     if (req.params.studentEmail == decodedToken.email) {
         res.status(200).json({
@@ -174,7 +174,7 @@ router.get('/api/student/getId/:studentEmail', checkAuth, async (req, res) => {
  *                required: false
  *                description: Admin user secret. Value is stored in the .env file in the API project.
  *              - in: header
- *                name: Auth
+ *                name: Authorization
  *                schema:
  *                    type: string
  *                required: true
@@ -196,7 +196,7 @@ router.get('/api/student/getId/:studentEmail', checkAuth, async (req, res) => {
  *                  description: 'This operation is not allowed for other users'
  */
 router.get('/api/student/:studentId', checkAuth, async (req, res) => {
-    const decodedToken = jwt.decode(req.headers.auth);
+    const decodedToken = jwt.decode(req.headers['authorization']);
 
     if (req.params.studentId == decodedToken.userId || req.header('Secret') == process.env.adminSecretKey) {
         Student.find({ _id: req.params.studentId })
@@ -239,7 +239,7 @@ router.get('/api/student/:studentId', checkAuth, async (req, res) => {
  *                required: false
  *                description: Admin user secret. Value is stored in the .env file in the API project.
  *              - in: header
- *                name: Auth
+ *                name: Authorization
  *                schema:
  *                    type: string
  *                required: true
@@ -269,7 +269,7 @@ router.get('/api/student/:studentId', checkAuth, async (req, res) => {
  *                  description: 'This operation is not allowed for other users'
  */
 router.put('/api/student/:studentId', checkAuth, async (req, res) => {
-    const decodedToken = jwt.decode(req.headers.auth);
+    const decodedToken = jwt.decode(req.headers['authorization']);
 
     if (req.params.studentId == decodedToken.userId || req.header('Secret') == process.env.adminSecretKey) {
         try {
@@ -314,7 +314,7 @@ router.put('/api/student/:studentId', checkAuth, async (req, res) => {
  *                required: false
  *                description: Admin user secret. Value is stored in the .env file in the API project.
  *              - in: header
- *                name: Auth
+ *                name: Authorization
  *                schema:
  *                    type: string
  *                required: true
@@ -344,7 +344,7 @@ router.put('/api/student/:studentId', checkAuth, async (req, res) => {
  *                  description: 'This operation is not allowed for other users'
  */
 router.patch('/api/student/:studentId', checkAuth, async (req, res) => {
-    const decodedToken = jwt.decode(req.headers.auth);
+    const decodedToken = jwt.decode(req.headers['authorization']);
 
     if (req.params.studentId == decodedToken.userId || req.header('Secret') == process.env.adminSecretKey) {
         if (req.body.password == null) {
@@ -379,7 +379,7 @@ router.patch('/api/student/:studentId', checkAuth, async (req, res) => {
  *          summary: Updates student password based on the provided student id sent as path param
  *          parameters:
  *              - in: header
- *                name: Auth
+ *                name: Authorization
  *                schema:
  *                    type: string
  *                required: true
@@ -425,7 +425,7 @@ router.patch('/api/student/:studentId', checkAuth, async (req, res) => {
  *                  description: 'Password encryption failed or an error has been encountered'
  */
 router.patch('/api/student/updatePassword/:studentId', checkAuth, async (req, res) => {
-    const decodedToken = jwt.decode(req.headers.auth);
+    const decodedToken = jwt.decode(req.headers['authorization']);
 
     if (req.body.password != null && req.body.password.length >= 10) {
         if (req.params.studentId == decodedToken.userId) {

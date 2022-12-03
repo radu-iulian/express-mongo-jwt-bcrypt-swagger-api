@@ -47,7 +47,7 @@ router.use(express.json());
  * tags:
  *  name: Login
  *  description: Login endpoint that generated the JWT token.
- *      The generated token value will be used for "Auth" header value. 
+ *      The generated token value will be used for "Authorization" header value. 
  *      The key for JWT encoding is also stored in the .env project file under "secretKey" constant (e.g. secretKey=efgh456$%^).
  */
 

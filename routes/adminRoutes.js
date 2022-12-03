@@ -114,7 +114,7 @@ router.use(express.json());
  *  name: Admin
  *  description: Admin users endpoints.
  *      In order to execute these requests you'll also need a "Secret" header of which value is stored in the .env file in the API project ( e.g. adminSecretKey=abcd123!@#). 
- *      The Admin must be also logged in before executing most of these requests (expect for the /api/admin/registration). For this another header should be added to the request named "Auth". 
+ *      The Admin must be also logged in before executing most of these requests (expect for the /api/admin/registration). For this another header should be added to the request named "Authorization". 
  *      The key for JWT encoding is also stored in the .env project file under "secretKey" constant (e.g. secretKey=efgh456$%^).
  */
 
@@ -202,7 +202,7 @@ router.post('/api/admin/registration', (req, res) => {
  *                required: true
  *                description: Admin user secret. Value is stored in the .env file in the API project.
  *              - in: header
- *                name: Auth
+ *                name: Authorization
  *                schema:
  *                    type: string
  *                required: true
@@ -287,7 +287,7 @@ router.post('/api/admin/addNewStudent', checkAuth, (req, res) => {
  *                required: true
  *                description: Admin user secret. Value is stored in the .env file in the API project.
  *              - in: header
- *                name: Auth
+ *                name: Authorization
  *                schema:
  *                    type: string
  *                required: true
@@ -349,7 +349,7 @@ router.delete('/api/admin/deleteStudent/:studentId', checkAuth, (req, res) => {
  *                required: true
  *                description: Admin user secret. Value is stored in the .env file in the API project.
  *              - in: header
- *                name: Auth
+ *                name: Authorization
  *                schema:
  *                    type: string
  *                required: true
