@@ -305,6 +305,8 @@ router.post('/api/admin/addNewStudent', checkAuth, (req, res) => {
  *                      application/json:
  *                          schema:
  *                              $ref: '#/components/schemas/DeletedStudent'
+ *              "400":
+ *                  description: 'Student can not be deleted. Invalid request.'
  *              "403":
  *                  description: 'This operation is not allowed for users having the student role'
  *              "404":
@@ -312,19 +314,30 @@ router.post('/api/admin/addNewStudent', checkAuth, (req, res) => {
  */
 router.delete('/api/admin/deleteStudent/:studentId', checkAuth, (req, res) => {
     if (req.header('Secret') == process.env.adminSecretKey) {
-        Student.deleteOne({ _id: req.params.studentId })
+        Student.find({ _id: req.params.studentId })
             .exec()
-            .then(() => {
-                res.status(200).json({
-                    message: 'Student with ' + req.params.studentId + ' id has been successfully deleted'
-                })
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(404).json({
-                    message: "Student id not found",
-                    error: err
-                })
+            .then(students => {
+                if (students.length > 0) {
+                    Student.deleteOne({ _id: req.params.studentId })
+                        .exec()
+                        .then(() => {
+                            res.status(200).json({
+                                message: 'Student with ' + req.params.studentId + ' id has been successfully deleted'
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(400).json({
+                                message: "Student can not be deleted. Invalid request.",
+                                error: err
+                            })
+                        })
+                }
+                else {
+                    return res.status(404).json({
+                        message: "Student id not found"
+                    });
+                }
             })
     }
     else {
