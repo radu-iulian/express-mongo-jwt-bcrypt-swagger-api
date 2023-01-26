@@ -145,7 +145,7 @@ router.use(express.json());
  *                  description: 'This operation is not allowed for other users'
  */
 router.get('/api/student/getId/:studentEmail', checkAuth, async (req, res) => {
-    const decodedToken = jwt.decode(req.headers['authorization']);
+    const decodedToken = jwt.decode(req.headers['authorization'].split(" ")[1]);
 
     if (req.params.studentEmail == decodedToken.email) {
         res.status(200).json({
@@ -196,7 +196,7 @@ router.get('/api/student/getId/:studentEmail', checkAuth, async (req, res) => {
  *                  description: 'This operation is not allowed for other users'
  */
 router.get('/api/student/:studentId', checkAuth, async (req, res) => {
-    const decodedToken = jwt.decode(req.headers['authorization']);
+    const decodedToken = jwt.decode(req.headers['authorization'].split(" ")[1]);
 
     if (req.params.studentId == decodedToken.userId || req.header('Secret') == process.env.adminSecretKey) {
         Student.find({ _id: req.params.studentId })
@@ -269,7 +269,7 @@ router.get('/api/student/:studentId', checkAuth, async (req, res) => {
  *                  description: 'This operation is not allowed for other users'
  */
 router.put('/api/student/:studentId', checkAuth, async (req, res) => {
-    const decodedToken = jwt.decode(req.headers['authorization']);
+    const decodedToken = jwt.decode(req.headers['authorization'].split(" ")[1]);
 
     if (req.params.studentId == decodedToken.userId || req.header('Secret') == process.env.adminSecretKey) {
         try {
@@ -344,7 +344,7 @@ router.put('/api/student/:studentId', checkAuth, async (req, res) => {
  *                  description: 'This operation is not allowed for other users'
  */
 router.patch('/api/student/:studentId', checkAuth, async (req, res) => {
-    const decodedToken = jwt.decode(req.headers['authorization']);
+    const decodedToken = jwt.decode(req.headers['authorization'].split(" ")[1]);
 
     if (req.params.studentId == decodedToken.userId || req.header('Secret') == process.env.adminSecretKey) {
         if (req.body.password == null) {
@@ -425,7 +425,7 @@ router.patch('/api/student/:studentId', checkAuth, async (req, res) => {
  *                  description: 'Password encryption failed or an error has been encountered'
  */
 router.patch('/api/student/updatePassword/:studentId', checkAuth, async (req, res) => {
-    const decodedToken = jwt.decode(req.headers['authorization']);
+    const decodedToken = jwt.decode(req.headers['authorization'].split(" ")[1]);
 
     if (req.body.password != null && req.body.password.length >= 10) {
         if (req.params.studentId == decodedToken.userId) {
