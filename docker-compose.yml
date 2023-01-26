@@ -20,9 +20,9 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     environment:
-      mongoDbUri: mongodb://mongo_db/studentsDB
-      adminSecretKey: das@5523!da%^DAFSDss123
-      secretKey: dsadSADXACS3!@(dda12DAD!
+      mongoDbUri: ${mongoDbUri}
+      adminSecretKey: ${adminSecretKey}
+      secretKey: ${secretKey}
     depends_on:
       - mongo_db
 
